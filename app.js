@@ -8,17 +8,18 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var catalogRouter = require('./routes/catalog');
 
+var dev_db_url = "mongodb+srv://pvoskou:vhF2a9zK25vm84EO@cluster0.b2ud9.mongodb.net/local_library?retryWrites=true&w=majority&ssl=true"
 
 var app = express();
 
 var mongoose = require("mongoose");
 try {
-  mongoose.connect("mongodb+srv://pvoskou:vhF2a9zK25vm84EO@cluster0.b2ud9.mongodb.net/local_library?retryWrites=true&w=majority&ssl=true", { useNewUrlParser: true });
+  mongoose.connect(process.env.MONGODB_URI || dev_db_url, { useNewUrlParser: true });
 } catch (error) {
   handleError(error);
 }
 
-var mongoDB = "mongodb+srv://pvoskou:vhF2a9zK25vm84EO@cluster0.b2ud9.mongodb.net/local_library?retryWrites=true&w=majority&ssl=true"
+var mongoDB = process.env.MONGODB_URI || dev_db_url;
 var db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
